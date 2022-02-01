@@ -1,24 +1,34 @@
 import React from 'react';
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import PrivateRoute from '../src/components/PrivateRoute';
 import RecipeList from '../src/components/RecipeList';
 import CreateAccountForm from '../src/components/CreateAccountForm';
+import Logout from './components/Logout';
+import Recipe from './components/Recipe';
 
-function App() {
+
+const App = () => {
+
+
   return (
     <div className="App">
      <Switch>
-       <PrivateRoute path='/recipes/recipe/id'>
-         {/*need to add filter to grab the recipe id and show that recipe card*/ }
+       <PrivateRoute path='/recipes/:id'>
+         <Recipe />
        </PrivateRoute>
+       
        <PrivateRoute path='/recipes' component={RecipeList} />
-       {/*add Logout Route here*/ }
+       
+       <PrivateRoute path='/logout' component={Logout} />
+       
        <Route path='/register' component={CreateAccountForm} />
+       
        <Route path='/login' />
+       
        <Route path='/' />
-       {/* need to add login component in routes */}
+       <Redirect to='/login' />
      </Switch>
     </div>
   );
