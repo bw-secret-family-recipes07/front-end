@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 
 import PrivateRoute from '../src/components/PrivateRoute';
 import RecipeList from '../src/components/RecipeList';
+import CreateAccountForm from '../src/components/CreateAccountForm';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
        </PrivateRoute>
        <PrivateRoute path='/recipes' component={RecipeList} />
        {/*add Logout Route here*/ }
+       <Route path='/register' component={CreateAccountForm} />
        <Route path='/login' />
        <Route path='/' />
        {/* need to add login component in routes */}
