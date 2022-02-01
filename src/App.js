@@ -1,23 +1,23 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Route, Switch } from 'react-router-dom';
+
+import PrivateRoute from '../src/components/PrivateRoute';
+import RecipeList from '../src/components/RecipeList';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <Switch>
+       <PrivateRoute path='/recipes/recipe/id'>
+         {/*need to add filter to grab the recipe id and show that recipe card*/ }
+       </PrivateRoute>
+       <PrivateRoute path='/recipes' component={RecipeList} />
+       {/*add Logout Route here*/ }
+       <Route path='/login' />
+       <Route path='/' />
+       {/* need to add login component in routes */}
+     </Switch>
     </div>
   );
 }

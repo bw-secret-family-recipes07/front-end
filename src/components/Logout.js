@@ -2,7 +2,7 @@ import React from 'react'; //need to include useEffect
 // import { useHistory } from 'react-router-dom';
 //import axiosWithAuth
 
-const Logout = () => {
+export default function Logout = () => {
 //const { push } = useHistory();
 
 //useEffect(() => {
@@ -19,5 +19,3 @@ const Logout = () => {
 
     return(<div></div>);
 }
-
-export default Logout;
