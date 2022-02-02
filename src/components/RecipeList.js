@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import RecipeListItem from './RecipeListItem';
 
-// import Recipe from './Recipe';
+const RecipeList = (props) => {
+    const { recipes } = props;
 
-export default function RecipeList() {
   return (
     <div>
         <div className='top'>
@@ -14,18 +16,20 @@ export default function RecipeList() {
             <input>Search</input>
             <button>Add New Recipe +</button>
         </div>
-        <div className='recipes'>
-            {/* {
-                recipes.map(recipe =>{
-                    return (<Link to='/recipe/{id}'><img src={recipe.img} /></Link>);
-                })
-            } */}
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        </div>
+        <table className='table table-striped table-hover'>
+            <tbody>
+                {
+                    recipes.map(recipe => <RecipeListItem key={recipe.id} recipe={recipe} />)
+                }
+            </tbody>
+        </table>
     </div>);
 }
+
+const mapStateToProps = (state) => {
+    return {
+        recipes: state.recipes
+    }
+}
+
+export default connect(mapStateToProps)(RecipeList);
