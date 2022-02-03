@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import axiosWithAuth from '../utils/axiosWithAuth';
+import axios from 'axios';
 import { useHistory } from 'react-router';
 
 const initialUser = {
@@ -21,10 +21,11 @@ const CreateAccountForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axiosWithAuth()
-        .post('/register', user)
+        axios.post('https://back-end-recipe.herokuapp.com/api/auth/register', user)
         .then(res => {
             console.log(res);
+            setUser(res.config.data);
+            push('/recipes');
         })
         .catch(err => {
             console.log(err);
@@ -71,7 +72,7 @@ const FormContainer = styled.form`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 31%;
+    margin-left: 10%;
 
     label {
         margin-top: 0.5em;
@@ -98,4 +99,5 @@ const LoginButton = styled.button`
     width: 10%;
     padding:.5em;
     margin-top: 1em;
+    margin-left: 48%;
 `

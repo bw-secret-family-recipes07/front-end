@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 
 import PrivateRoute from '../src/components/PrivateRoute';
 import RecipeList from '../src/components/RecipeList';
@@ -13,7 +14,7 @@ const App = () => {
 
 
   return (
-    <div className="App">
+    <AppContainer>
      <Switch>
        <PrivateRoute path='/recipes/:id'>
          <Recipe />
@@ -30,8 +31,14 @@ const App = () => {
        <Route path='/' />
        <Redirect to='/login' />
      </Switch>
-    </div>
+    </AppContainer>
   );
 }
 
 export default App;
+
+const AppContainer = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`
