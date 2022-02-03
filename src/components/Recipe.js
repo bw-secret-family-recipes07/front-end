@@ -1,37 +1,36 @@
 import React from 'react';
+import styled from 'styled-components';
 import { useParams, useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
+
 
 const Recipe = (props) => {
+    const { recipes, handleEdit, handleDelete } = props;
     const { id } = useParams();
     const { push } = useHistory();
-    const { recipes } = props;
 
     const recipe = recipes.find(recipe => recipe.id === Number(id));
 
-    const handleEdit = () => {
 
-    }
-
-    const handleDelete = () => {
+    const handleDeleteClick = (recipe) => {
+        handleDelete(recipe);
         push('/recipes');
     }
 
-    return (
-        <div>
-            <div className='top'>
+    return (<div>
+        <RecipeStyle>
+            <Container>
                 <button>Back</button>
                 <button>Logout</button>
-            </div>
-            <div className='recipe-pic'>
+            </Container>
+            <Container>
                 <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-            </div>
-            <div className='recipe-top'>
+            </Container>
+            <Container>
                 <h2>{recipe.title}</h2>
                 <h3>by {recipe.source}</h3>
-            </div>
+            </Container>
             <section className='recipe-body'>
-                <div className='ingredients'>
+                <Container>
                     <h3>Ingredients</h3>
                     <ul>
                         {
@@ -40,27 +39,44 @@ const Recipe = (props) => {
                     </ul>
                     <h3>Category</h3>
                     <h4>{recipe.category}</h4>
-                </div>
-                <div className='directions'>
+                </Container>
+                <Container>
                     <h3>Directions</h3>
                     <ol>
                         {
                             recipes.directions.map(item => <li>{item}</li>)
                         }
                     </ol>
-                </div>
+                </Container>
             </section>
-            <div className='buttons'>
+            </RecipeStyle>
+            <ButtonContainer>
                 <button onClick={handleEdit}>Edit</button>
-                <button onClick={handleDelete}>Delete</button>
-            </div>
-        </div>);
+                <button onClick={handleDeleteClick}>Delete</button>
+            </ButtonContainer>
+            </div>);
 }
 
-const mapStateToProps = (state) => {
-    return {
-        recipes: state.recipes
+export default Recipe;
+
+const RecipeStyle = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 0.5em; 
+    background: grey;
+`
+
+const Container = styled.div`
+    padding: 0.5em; 
+`
+
+const ButtonContainer = styled.div`
+    padding: 1em;
+    text-transform: uppercase;
+    text-align:right;
+
+    button {
+        width: 100px;
+        padding:0.5em;
     }
-}
-
-export default connect(mapStateToProps)(Recipe);
+`

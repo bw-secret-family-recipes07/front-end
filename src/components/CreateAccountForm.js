@@ -1,45 +1,101 @@
-import React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import axiosWithAuth from '../utils/axiosWithAuth';
+import { useHistory } from 'react-router';
 
-export default function CreateAccountForm() {
-  return (
+const initialUser = {
+    username: '',
+    password: ''
+}
+
+const CreateAccountForm = () => {
+    const [user, setUser] = useState(initialUser);
+    const { push } = useHistory();
+
+    const handleChange = (e) => {
+        setUser({
+            ...user,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axiosWithAuth()
+        .post('/register', user)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    const handleLoginClick = (e) => {
+        e.preventDefault();
+        push('/login');
+    }
+
+    return (
     <div>
         <h1>Secret Family Recipe Cookbook</h1>
-        <div className='form'>
             <h2>Enter your Information below to Create your Account</h2>
-            <form>
-                <label>First Name:</label>
-                <input 
-                type='text'
-                name='first-name'
-                value='first-name'
-                />
-                 <label>Last Name:</label>
-                <input 
-                type='text'
-                name='last-name'
-                value='last-name'
-                />
-                 <label>Email:</label>
-                <input 
-                type='email'
-                name='email'
-                value='email'
-                />
+            <FormContainer>
                  <label>Username:</label>
                 <input 
                 type='text'
                 name='username'
-                value='username'
+                value={user.username}
+                onChange={handleChange}
                 />
                  <label>Password:</label>
                 <input 
                 type='password'
                 name='password'
-                value='password'
+                value={user.password}
+                onChange={handleChange}
                 />
-                <button>Create Account</button>
-            </form>
-            <button>Login</button>
-        </div>
+                <Button onClick={handleSubmit}>Create Account</Button>
+            </FormContainer>
+            <LoginButton onClick={handleLoginClick}>Login</LoginButton>
     </div>);
 }
+
+export default CreateAccountForm;
+
+const FormContainer = styled.form`
+    padding: 1em;
+    width: 400px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 31%;
+
+    label {
+        margin-top: 0.5em;
+    }
+
+    input {
+        padding: 0.5em;
+    }
+    
+    div { 
+        margin: 0.5em 0;
+        display:flex;
+        justify-content: center;
+    }
+`
+
+const Button = styled.button`
+    width: 50%;
+    padding:1em;
+    margin-top: 1em;
+
+`
+const LoginButton = styled.button`
+    width: 10%;
+    padding:.5em;
+    margin-top: 1em;
+`

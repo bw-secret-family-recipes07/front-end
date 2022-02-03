@@ -1,24 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 const RecipeListItem = (props) => {
-  const { id, title, source, category } = props.recipe;
+  const { img, title, source, category, id } = props.recipe;
 
-  return (<div>
-    <tr key={id}>
-      <td>{title}</td>
-      <td>{source}</td>
-      <td>{category}</td>
-      <td>
+  return (<ComponentContainer>
+        <img src={img} alt='recipe card' />
+        <h4>{title}</h4>
+        <h4>{source}</h4>
+        <h4>{category}</h4>
         <Link to={`/recipes/${id}`} className='view'>
           <input 
           type='button' 
           className='btn btn-secondary' 
           value='View' />
         </Link>
-      </td>
-    </tr>
-  </div>);
+  </ComponentContainer>);
 }
 
 export default RecipeListItem;
+
+const ComponentContainer = styled.div`
+    display:flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    
+`
