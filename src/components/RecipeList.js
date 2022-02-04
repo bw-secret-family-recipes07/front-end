@@ -1,31 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
+import EditForm from './EditForm';
+import RecipeListItem from './RecipeListItem';
+import axiosWithAuth from '../utils/axiosWithAuth';
 
-// import Recipe from './Recipe';
+const RecipeList = () => {
+    const [recipes, setRecipes] = useState([]);
+    const [editing, setEditing] = useState(false);
+    const [editId, setEditId] = useState();
 
-export default function RecipeList() {
+    useEffect(() => {
+        axiosWithAuth()
+        .get('/items')
+        .then(res => {
+            console.log(res);
+            setRecipes();
+            //add the correct response here
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }, [])
+
+    const handleDelete = (id) => {
+        axiosWithAuth()
+        .delete(`/items/${id}`)
+        .then(res => {
+            console.log(res);
+            setRecipes();
+            //add the correct response here
+        })
+        .catch(err => console.log(err));
+    }
+
+    const handleEdit = (recipe) => {
+        axiosWithAuth()
+        .put(`/items/${editId}`, recipe)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => console.log(err));
+    }
+
+    const handleEditSelect = (id) => {
+        setEditing(true);
+        setEditId(id);
+    }
+
+    const handleEditCancel = () => {
+        setEditing(false);
+    }
+
   return (
-    <div>
-        <div className='top'>
+    <ComponentContainer>
+        <HeaderContainer>
             <h2>Welcome User!</h2>
             <button>Logout</button>
-        </div>
-        <div className='search-add'>
             <input>Search</input>
             <button>Add New Recipe +</button>
-        </div>
-        <div className='recipes'>
-            {/* {
-                recipes.map(recipe =>{
-                    return (<Link to='/recipe/{id}'><img src={recipe.img} /></Link>);
-                })
-            } */}
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        <img src='https://media.istockphoto.com/photos/grilled-chicken-meat-and-fresh-vegetable-salad-of-tomato-avocado-and-picture-id1295633127?b=1&k=20&m=1295633127&s=170667a&w=0&h=VDkBqjm0RShberDPMJ_L-LHX1rZ5v8yNvq0I0UxXquM=' alt='chicken salad' />
-        </div>
-    </div>);
+        </HeaderContainer>
+        <RecipeContainer>
+                {
+                    recipes.map(recipe => {
+                    return <RecipeDivider key={recipe.id}>
+                        <RecipeListItem key={recipe.id} recipe={recipe} handleDelete={handleDelete} handleEditSelect={handleEditSelect}/>
+                        </RecipeDivider>
+                    })
+                }
+        </RecipeContainer>
+
+        {
+            editing && <EditForm editId={editId} handleEdit={handleEdit} handleEditCancel={handleEditCancel} />
+        }
+    </ComponentContainer>);
 }
+
+export default RecipeList;
+
+const HeaderContainer = styled.h1`
+    border-bottom: solid black 2px;
+    padding: 1em;
+    margin:0;
+    font-size: 1.5em;
+    background: black;
+    color: white;
+`
+
+const RecipeDivider = styled.div`
+    border-bottom: 1px solid black;
+    padding: 1em;
+`
+
+const ComponentContainer = styled.div`
+    display:flex;
+    width: 80%;
+    flex-direction: column;
+    justify-content: center;
+    
+`
+
+const RecipeContainer = styled.div`
+    background: grey;
+`;
