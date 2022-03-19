@@ -19,7 +19,7 @@ The little cards my grandma wrote the recipes on in her beautiful cursive are ge
 
 4. Ability to search for `recipes` by `title` or tagged `categories`.
 
-Deployed URL: [https://deployedPotLuckPlannerAPI.heroku.com](https://deployedPotLu)
+Deployed URL: [https://family-recipe-build.herokuapp.com/](https://family-recipe-build.herokuapp.com/)
 
 # *Meet the Team*
 
